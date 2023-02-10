@@ -1,14 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <h1>JS da Obektlar bilan ishlash</h1>
     <h2>Xodimlar ro`yxati</h2>
-    <script src="./main.js"></script>
+    <ul>
+        <li class="li-item">Объктлар</li>
+        <li>Массивлар билан ишлаш (Array)</li>
+        <li class="li-item">Locale Storage (Браузер хотираси билан ишлаш)</li>
+        <li>Деструктизация тушунчаси</li>
+        <li>
+            <strong> Генераторлар </strong>
+        </li>
+    </ul>
+    <!-- 
+        <div class="card">
+        <div class="card-header">
+            Forma
+        </div>
+        <div class="card-body">
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="text" name="firstName" id="firstName">
+            </div>
+            <div class="col">
+                <input type="number" name="age" id="age">
+            </div>
+        </div>
+        <div class="card-footer">
+            <div>
+                <button id="myBtn"> Save</button>
+            </div>
+        </div>
+
+    </div>
+ -->
+    <div id="myDiv">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Forma
+                    </div>
+                    <div class="card-body">
+                        <form name="myForm">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="firstName" class="form-label"> Ismi</label>
+                                    <input class="form-control" type="text" name="firstName" value="Axmad">
+                                </div>
+                                <div class="col">
+                                    <label for="age" class="form-label"> Yosh</label>
+                                    <input class="form-control" type="number" name="age" value="30">
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="button" id="myBtn2"> Save</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+
+    </div>
+    <div id="myDiv2 container">
+<div class="d-flex justify-content-between m-0">
+<div class="bg-primary flex-fill text-center p-2">1</div>
+<div class="bg-warning p-2">2</div>
+</div>
+    </div>
+    <script src="./lesson5.js"></script>
 </body>
+
 </html>
