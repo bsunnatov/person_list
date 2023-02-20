@@ -1,0 +1,14 @@
+.person-row-selected {
+    background-color: bisque;
+}
+
+.one {
+    background-color: bisque;
+    height: 200px;
+}
+
+.two {
+    padding: 10px;
+    background-color: aqua;
+    height: 100px;
+}

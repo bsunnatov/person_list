@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="./main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,75 +23,133 @@
         <li>
             <strong> Генераторлар </strong>
         </li>
+        <li>
+            <strong> event propogation </strong>
+        </li>
     </ul>
-    <!-- 
-        <div class="card">
-        <div class="card-header">
-            Forma
+    <!-- <div class="one">
+        one
+        <div class="two">
+            two
         </div>
-        <div class="card-body">
+    </div> -->
 
-        </div>
-        <div class="row">
-            <div class="col">
-                <input type="text" name="firstName" id="firstName">
-            </div>
-            <div class="col">
-                <input type="number" name="age" id="age">
-            </div>
-        </div>
-        <div class="card-footer">
-            <div>
-                <button id="myBtn"> Save</button>
-            </div>
-        </div>
-
-    </div>
- -->
     <div id="myDiv">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Forma
-                    </div>
-                    <div class="card-body">
-                        <form name="myForm">
-                            <div class="row">
-                                <div class="col">
-                                    <label for="firstName" class="form-label"> Ismi</label>
-                                    <input class="form-control" type="text" name="firstName" value="Axmad">
-                                </div>
-                                <div class="col">
-                                    <label for="age" class="form-label"> Yosh</label>
-                                    <input class="form-control" type="number" name="age" value="30">
-                                </div>
-                            </div>
-                            
-                        </form>
-                    </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> #</th>
+                            <th>Familiya</th>
+                            <th>Ismi</th>
+                            <th>Yoshi</th>
+                            <th>Tug`ulgan sanasi</th>
+                            <th>Viloyat</th>
+                            <th>Harakat</th>
 
-                    <div class="card-footer">
-                        <div class="text-right">
-                            <button class="btn btn-primary" type="button" id="myBtn2"> Save</button>
-                        </div>
-                    </div>
+                        </tr>
 
+                    </thead>
+                    <tbody id="mytable">
+
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col-md-3">
+
+                <button type="button" class="btn btn-primary" onclick="addNew()">Qo`shish</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <ul class="pagination">
+                        
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-3"></div>
         </div>
-
+       
 
     </div>
     <div id="myDiv2 container">
-<div class="d-flex justify-content-between m-0">
-<div class="bg-primary flex-fill text-center p-2">1</div>
-<div class="bg-warning p-2">2</div>
-</div>
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xodim anketasi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                                Forma
+                            </div>
+                            <div class="card-body">
+                                <form name="myForm">
+                                    <input name="personId" type="hidden">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="lastName" class="form-label"> Familiyasi</label>
+                                            <input class="form-control" type="text" name="lastName">
+                                        </div>
+                                        <div class="col">
+                                            <label for="firstName" class="form-label"> Ismi</label>
+                                            <input class="form-control" type="text" name="firstName">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <label for="age" class="form-label"> Yosh</label>
+                                            <input disabled class="form-control" type="number" name="age">
+                                        </div>
+                                        <div class="col">
+                                            <label for="age" class="form-label"> Tu`ulgan sanasi</label>
+                                            <input class="form-control" type="date" name="dayOfBirth">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="regionId" class="form-label"> Viloyat</label>
+                                            <select class="form-control" name="regionId" id="regionId">
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="addressLine1" class="form-label"> Yashash manzili</label>
+                                            <textarea class="form-control" name="addressLine1" rows="3"></textarea>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+                        <button type="button" class="btn btn-primary" id="btnSave">Saqlash</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="./lesson5.js"></script>
+    <script src="./lesson8.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
