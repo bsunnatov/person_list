@@ -1,7 +1,10 @@
 
 let persons = [];// Ходимлар Маълумотлар базаси
-syncFromLocale();// Locale storage dan malumotlarni persons bazasiga o'qib olish
 
+isLogged();
+let _token = `Bearer ${localStorage.getItem('token')}`
+//syncFromLocale();// Locale storage dan malumotlarni persons bazasiga o'qib olish
+loadPersonsFromApi();
 class PageOptions {// sahifalash uchun sozlash clasi
 
     constructor(page, pageSize) {
@@ -101,13 +104,16 @@ function addNew() {
     openModal();
 }
 function deleteItem(id) {
-    const item = persons.find(a => a.id === id);
-    const index = persons.indexOf(item);
-    console.log(item)
-    const removedItem = persons.splice(index, 1);
+    // const item = persons.find(a => a.id === id);
+    // const index = persons.indexOf(item);
+    // console.log(item)
+    // const removedItem = persons.splice(index, 1);
     //console.log(removedItem);
-    saveToLocale();
-    loadTable();
+    fetch('http://localhost:3000/persons/' + id, { method: 'DELETE' }).then(a => {
+        loadPersonsFromApi();
+    })
+    // saveToLocale();
+    // loadTable();
 }
 function selectRow(e) {
     console.log(e)
@@ -169,7 +175,7 @@ function save() {
         // _item.address?.regionId = region.id;
         // _item.address?.regionName = region.text;
 
-
+        updatePerson(personId, _item);
     }
     else {
         //add
@@ -177,17 +183,29 @@ function save() {
         const newItem = new Person(firstName, lastName, age,
             dayOfBirth,
             new Address(region, '', addressLine1));
-       saveToServer(newItem).then();
-         
+        saveToServer(newItem).then();
+
         persons.push(newItem);
     }
     clear();
-   // saveToLocale();
+    // saveToLocale();
 }
-async function saveToServer(newItem){
-    const resp = await fetch('http://localhost:3000/persons/create',
-    { method: "POST", body: JSON.stringify(newItem),headers:{"Content-Type": "application/json","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJic3VubmF0b3YiLCJpYXQiOjE2Nzg0MjU0OTQsImV4cCI6MTY3ODQyOTA5NH0.rHqPPuXcGWs4NfLMRsIEcgqkHyROVaztz84XaV6kkPY"} });
+async function saveToServer(newItem) {
+    const resp = await fetch('http://localhost:3000/persons',
+        { method: "POST", body: JSON.stringify(newItem), headers: { "Content-Type": "application/json", "Authorization": _token } });
     console.log(await resp.json())
+}
+async function updatePerson(id, editItem) {
+    const resp = await fetch('http://localhost:3000/persons/' + id,
+        { method: "PUT", body: JSON.stringify(editItem), headers: { "Content-Type": "application/json", "Authorization": _token } });
+    loadPersonsFromApi();
+}
+async function loadPersonsFromApi() {
+    const resp = await fetch('http://localhost:3000/persons',
+        { method: "GET", headers: { "Content-Type": "application/json", "Authorization": _token } });
+    const _persons = await resp.json();
+    persons = [..._persons];
+    loadTable();
 }
 function close() {
     // const modal = document.getElementById('exampleModal');
@@ -218,26 +236,7 @@ function syncFromLocale() {
     }
 }
 loadTable();
-// const items = document.querySelectorAll('.edit-item');
-// Array.from(items).forEach((e) => {
-//     e.onclick = function (t) {
-//         console.log(t.target)
-//     }
-// })
 
-//
-// function clicktwo(e) {
-//     console.log(e)
-//     e.stopPropagation();
-//     console.log('two clicked!')
-
-// }
-// function clickone() {
-//     console.log('one clicked!')
-//     document.querySelector('.one').style = 'display:none';
-// }
-// document.querySelector('.two').onclick = clicktwo;
-// document.querySelector('.one').onclick = clickone;
 function addInitData() {
     for (let index = 1; index < 26; index++) {
 
@@ -296,3 +295,12 @@ function next() {
         drawPagination();
     }
 }
+function isLogged() {
+    //localet storage ga token 
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = "login.html";
+    }
+}
+
