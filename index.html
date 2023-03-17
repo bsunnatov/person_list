@@ -13,15 +13,39 @@
 </head>
 
 <body>
-
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+            <a class="navbar-brand" href="#">Xodimlar hisobi</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/index.html">Bosh sahifa </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login.html">Kirish</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
     <div id="myDiv">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
+                <div class="d-flex justify-content-end">
+                   
+                    <button type="button" class="btn btn-primary" onclick="addNew()"> <i class="icon-plus"></i>
+                        Qo`shish</button>
+                </div>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th> #</th>
+                            <th> №</th>
+                            <th>Img</th>
                             <th>Familiya</th>
                             <th>Ismi</th>
                             <th>Yoshi</th>
@@ -41,14 +65,14 @@
             </div>
             <div class="col-md-3">
 
-                <button type="button" class="btn btn-primary" onclick="addNew()">Qo`shish</button>
+
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-center">
                     <ul class="pagination">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -59,58 +83,68 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1">
-            <div class="modal-dialog">
+        <div class="modal fade lg-modal" id="exampleModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xodim anketasi</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xodim anketasini kiritish formasi</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                     </div>
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-header">
-                                Forma
+                                Umumiy ma`lumotlar
                             </div>
                             <div class="card-body">
                                 <form name="myForm">
-                                    <input name="personId" type="hidden">
                                     <div class="row">
-                                        <div class="col">
-                                            <label for="lastName" class="form-label"> Familiyasi</label>
-                                            <input class="form-control" type="text" name="lastName">
+                                        <div class="col-md-8">
+                                            <input name="personId" type="hidden">
+                                            <input name="avatar" type="hidden">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="lastName" class="form-label"> Familiyasi</label>
+                                                    <input class="form-control" type="text" name="lastName">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="firstName" class="form-label"> Ismi</label>
+                                                    <input class="form-control" type="text" name="firstName">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+        
+                                                <div class="col">
+                                                    <label for="age" class="form-label"> Yosh</label>
+                                                    <input class="form-control" type="number" name="age">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="age" class="form-label"> Tu`ulgan sanasi</label>
+                                                    <input class="form-control" type="date" name="dayOfBirth">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="regionId" class="form-label"> Viloyat</label>
+                                                    <select class="form-control" name="regionId" id="regionId">
+        
+                                                    </select>
+                                                </div>
+        
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="addressLine1" class="form-label"> Yashash manzili</label>
+                                                    <textarea class="form-control" name="addressLine1" rows="3"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <label for="firstName" class="form-label"> Ismi</label>
-                                            <input class="form-control" type="text" name="firstName">
+                                        <div class="col-md-4">
+                                            <input type="file" id="myFile">
+                                            <img id="avatar" style="max-width: 180px;">
                                         </div>
                                     </div>
-                                    <div class="row">
-
-                                        <div class="col">
-                                            <label for="age" class="form-label"> Yosh</label>
-                                            <input disabled class="form-control" type="number" name="age">
-                                        </div>
-                                        <div class="col">
-                                            <label for="age" class="form-label"> Tu`ulgan sanasi</label>
-                                            <input class="form-control" type="date" name="dayOfBirth">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="regionId" class="form-label"> Viloyat</label>
-                                            <select class="form-control" name="regionId" id="regionId">
-
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="addressLine1" class="form-label"> Yashash manzili</label>
-                                            <textarea class="form-control" name="addressLine1" rows="3"></textarea>
-                                        </div>
-                                    </div>
+                                    
 
                                 </form>
                             </div>

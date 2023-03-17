@@ -26,12 +26,13 @@ const seq = new Sequence(1);
 const pageOptions = new PageOptions(1, 10);// 
 class Person {
     id = 0;
-    constructor(firstName, lastName, age, dayOfBirth, address) {
+    constructor(firstName, lastName, age, dayOfBirth, address, avatar) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.dayOfBirth = dayOfBirth;
         this.address = address;
+        this.avatar = avatar;
         this.id = uuidv4()
     }
 }
@@ -75,7 +76,7 @@ function loadTable() {
     table_body.innerHTML = '';
     //sahifalash
     const start = (pageOptions.page - 1) * pageOptions.pageSize;
-    const pagedPersons = persons.slice(start, start + pageOptions.pageSize)
+    const pagedPersons = persons.filter(a=>a!=null).slice(start, start + pageOptions.pageSize)
     pagedPersons.forEach((e, i) => {
         table_body.innerHTML += addRow(e, i + 1);
     })
@@ -95,6 +96,7 @@ function editItem(id) {
         myForm.elements.regionId.value = item.address?.regionId;
         myForm.elements.addressLine1.value = item.address?.addressLine1;
         myForm.elements.dayOfBirth.value = item.dayOfBirth;
+        myForm.elements.avatar.value = item.avatar;
         openModal();
     }
 
@@ -109,7 +111,7 @@ function deleteItem(id) {
     // console.log(item)
     // const removedItem = persons.splice(index, 1);
     //console.log(removedItem);
-    fetch('http://localhost:3000/persons/' + id, { method: 'DELETE' }).then(a => {
+    fetch('http://localhost:3000/persons/' + id, { method: 'DELETE', headers: { "Content-Type": "application/json", "Authorization": _token } }).then(a => {
         loadPersonsFromApi();
     })
     // saveToLocale();
@@ -128,11 +130,12 @@ function selectRow(e) {
 function addRow(item, index) {
     return ` <tr id='tr_${index}'  onclick="selectRow(${index})">
     <td>${index}</td>
+    <td><img src="${item.avatar}" width="36"></td>
     <td>${item.lastName}</td>
     <td>${item.firstName}</td>
     <td>${item.age}</td>
     <td>${item.dayOfBirth}</td>
-    <td>${item.address?.regionName}</td>
+    <td>${item.address?.regionId}</td>
     <td>
         <button   data-id=${item.id} class="btn btn-primary edit-item"  onclick="editItem('${item.id}')">
             <i class="icon-edit"></i>
@@ -164,7 +167,7 @@ function save() {
     const region = regions.find(a => a.id == regionId);
     const addressLine1 = myForm.elements.addressLine1.value;
     const dayOfBirth = myForm.elements.dayOfBirth.value;
-
+    const avatar = myForm.elements.avatar.value;
     if (personId) {
         // edit
         const _item = persons.find(a => a.id == personId);
@@ -172,6 +175,7 @@ function save() {
         _item.firstName = firstName;
         _item.lastName = lastName;
         _item.dayOfBirth = dayOfBirth;
+        _item.avatar = avatar;
         // _item.address?.regionId = region.id;
         // _item.address?.regionName = region.text;
 
@@ -182,7 +186,7 @@ function save() {
 
         const newItem = new Person(firstName, lastName, age,
             dayOfBirth,
-            new Address(region, '', addressLine1));
+            new Address(region, '', addressLine1),avatar);
         saveToServer(newItem).then();
 
         persons.push(newItem);
@@ -199,6 +203,7 @@ async function updatePerson(id, editItem) {
     const resp = await fetch('http://localhost:3000/persons/' + id,
         { method: "PUT", body: JSON.stringify(editItem), headers: { "Content-Type": "application/json", "Authorization": _token } });
     loadPersonsFromApi();
+    close();
 }
 async function loadPersonsFromApi() {
     const resp = await fetch('http://localhost:3000/persons',
@@ -206,11 +211,16 @@ async function loadPersonsFromApi() {
     const _persons = await resp.json();
     persons = [..._persons];
     loadTable();
+    drawPagination();
+}
+function closeModal() {
+    close();
 }
 function close() {
-    // const modal = document.getElementById('exampleModal');
-    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
-    myModal.hide();
+
+    var myModal = document.getElementById('exampleModal');
+    var modal = bootstrap.Modal.getInstance(myModal)
+    modal.hide();
 
 }
 function clear() {
@@ -303,4 +313,33 @@ function isLogged() {
         window.location.href = "login.html";
     }
 }
+//upload file
+const avatar = document.getElementById("avatar");
+const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
 
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+            reject(error);
+        };
+    });
+};
+const uploadImage = async (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    const base64 = await convertBase64(file);
+    console.log(base64);
+    avatar.src = base64;
+    const myForm = document.forms.myForm;
+    myForm.elements.avatar.value = base64;
+
+};
+const myFile = document.getElementById('myFile');
+myFile.addEventListener('change', (e) => {
+    uploadImage(e);
+});
